@@ -1,5 +1,8 @@
 # shellcheck shell=bash
 
+# Proxmox soll die bewusst gesetzte interne OIDC-Auflösung bei Neustarts behalten.
+touch /etc/.pve-ignore.hosts
+
 info "Aktualisiere Debian und installiere Basispakete"
 echo "postfix postfix/main_mailer_type select No configuration" | debconf-set-selections
 echo "postfix postfix/mailname string ${FQDN}" | debconf-set-selections
