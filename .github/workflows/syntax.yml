@@ -1,0 +1,22 @@
+name: Syntax checks
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  syntax:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Bash syntax
+        run: |
+          bash -n ct/sogo.sh
+          bash -n install/sogo-install.sh
+          bash -n install/sogo-healthcheck.sh
+          bash -n install/sogo-lxc-update.sh
+      - name: Python syntax
+        run: python3 -m py_compile install/sogo-mail-user.py
