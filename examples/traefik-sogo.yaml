@@ -1,0 +1,18 @@
+# In die bestehende dynamische Traefik-Konfiguration übernehmen.
+# Hostname, Backend-IP und certResolver anpassen.
+
+http:
+  routers:
+    sogo-web:
+      rule: Host(`post.momenteschenker.de`)
+      entryPoints:
+        - websecure
+      service: sogo-web
+      tls:
+        certResolver: letsencrypt
+
+  services:
+    sogo-web:
+      loadBalancer:
+        servers:
+          - url: http://192.168.178.61:80
