@@ -1,0 +1,14 @@
+{
+  "name": "SOGo OIDC Webmail",
+  "slug": "sogo",
+  "type": "lxc",
+  "description": "SOGo Webmail, Kalender und Kontakte mit OIDC sowie externen IMAP-/SMTP-Konten.",
+  "os": "Debian 12",
+  "privileged": false,
+  "interface_port": 80,
+  "default_cpu": 2,
+  "default_ram_mb": 3072,
+  "default_disk_gb": 12,
+  "update_command": "sogo-lxc-update",
+  "user_management_command": "sogo-mail-user"
+}
