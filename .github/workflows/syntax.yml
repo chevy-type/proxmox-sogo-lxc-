@@ -16,6 +16,7 @@ jobs:
         run: |
           bash -n ct/sogo.sh
           bash -n install/sogo-install.sh
+          for file in install/lib/*.sh; do bash -n "$file"; done
           bash -n install/sogo-healthcheck.sh
           bash -n install/sogo-lxc-update.sh
       - name: Python syntax
