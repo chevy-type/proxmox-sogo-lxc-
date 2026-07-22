@@ -50,7 +50,6 @@ content = f"""{{
   );
 
   SOGoAuthenticationType = openid;
-  SOGoXSRFValidationEnabled = NO;
   SOGoOpenIdConfigUrl = {q(os.environ['OIDC_DISCOVERY'])};
   SOGoOpenIdClient = {q(os.environ['OIDC_CLIENT_ID'])};
   SOGoOpenIdClientSecret = {q(os.environ['OIDC_CLIENT_SECRET'])};
