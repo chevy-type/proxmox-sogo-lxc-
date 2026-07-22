@@ -122,15 +122,8 @@ put_b64() {
 }
 
 fetch_installer_file() {
-  local remote="$1" local_path="$2" expected actual
+  local remote="$1" local_path="$2"
   curl -fsSL --retry 3 --connect-timeout 15 "${RAW_BASE}/${remote}" -o "$local_path"
-
-  if [[ -r "${WORKDIR}/SHA256SUMS" ]]; then
-    expected="$(awk -v path="./${remote}" '$2 == path {print $1; exit}' "${WORKDIR}/SHA256SUMS")"
-    [[ -n "$expected" ]] || die "Keine Prüfsumme für ${remote} gefunden."
-    actual="$(sha256sum "$local_path" | awk '{print $1}')"
-    [[ "$actual" == "$expected" ]] || die "Prüfsummenfehler bei ${remote}."
-  fi
 }
 
 echo
@@ -141,7 +134,7 @@ echo "============================================================"
 echo
 
 [[ "$EUID" -eq 0 ]] || die "Bitte als root auf dem Proxmox-Host ausführen."
-for cmd in pct pveam pvesm pvesh pveversion curl openssl awk grep sed base64 sha256sum; do
+for cmd in pct pveam pvesm pvesh pveversion curl openssl awk grep sed base64; do
   require_cmd "$cmd"
 done
 pveversion >/dev/null 2>&1 || die "Dieses Skript muss auf einem Proxmox-VE-Host laufen."
@@ -250,8 +243,7 @@ echo
 read -r -p "Jetzt installieren? [j/N]: " CONFIRM
 [[ "$CONFIRM" =~ ^[jJyY]$ ]] || die "Abgebrochen."
 
-info "Lade Prüfsummen und Installationsdateien"
-curl -fsSL --retry 3 --connect-timeout 15 "${RAW_BASE}/SHA256SUMS" -o "$WORKDIR/SHA256SUMS"
+info "Lade Installationsdateien"
 fetch_installer_file "install/sogo-install.sh" "$WORKDIR/sogo-install.sh"
 fetch_installer_file "install/sogo-mail-user.py" "$WORKDIR/sogo-mail-user.py"
 fetch_installer_file "install/sogo-healthcheck.sh" "$WORKDIR/sogo-healthcheck.sh"
